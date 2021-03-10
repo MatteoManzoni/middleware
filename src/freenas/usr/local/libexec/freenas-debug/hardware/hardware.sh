@@ -211,6 +211,14 @@ hardware_freebsd()
 		sas3flash -listall
 		section_footer
 	fi
+
+	if case "$(midclt call truenas.get_chassis_hardware)" in TRUENAS-M*) true;; *) false;; esac; then
+		for nvdimm in /dev/nvdimm*; do
+			section_header "M-Series NVDIMM $nvdimm"
+			ixnvdimm $nvdimm
+			section_footer
+		done
+	fi
 }
 
 hardware_func()
